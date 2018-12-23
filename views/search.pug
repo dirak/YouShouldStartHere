@@ -1,0 +1,18 @@
+html
+	head
+		title= title
+
+	body
+		form(method='POST' action='/addname')
+			div.form-group
+				label(for='show') Show Name:
+				select(name='show', id='show')
+					each collection in collections
+						option=collection
+			div.form-group
+				label(for='episode') Episode To Start On:
+				input#name.form-control(type='text' placeholder='Episde' name='episode' value=episode)
+			div.form-group
+				label(for='reason') Reason(s) for Avoiding Previous Episodes:
+				input#name.form-control(type='text' placeholder='Reason' name='reason' value=reason)
+			button.btn.btn-primary(type='submit') Submit to Database

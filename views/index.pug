@@ -1,0 +1,50 @@
+html
+	head
+		title= title
+	body
+		if error
+			h1= error
+		script(src="https://code.jquery.com/jquery-3.3.1.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js")
+		link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css")
+		form(method='POST' action='/addname')
+			div.form-group
+				select#show( name='show' style="width:400px")
+			div.form-group
+				label(for='episode') Episode To Start On:
+				input.form-control(type='text' placeholder='Episode' name='episode')
+			div.form-group
+				label(for='reason') Reason(s) for Avoiding Previous Episodes:
+				input.form-control(type='text' placeholder='Reason' name='reason')
+			button.btn.btn-primary(type='submit') Submit to Database
+			script.
+				$(document).ready(function() {
+					$("#show").select2({
+						placeholder: "Select",
+						ajax: {
+							url: 'https://gpodder.net/search.json',
+							dataType: 'JSON',
+							type: 'GET',
+							delay: 250,
+							data: function(params) {
+								return {
+									q: params.term
+								}
+							},
+							processResults: function(data) {
+								return {
+									results: data
+										.map(item => item.title)
+										.filter((item, i, arr) => arr.indexOf(item) == i )
+										.sort()
+										.map(item => {
+											return {
+												id: item,
+												text: item
+											}
+										})
+								}
+							}
+						}
+					});
+				});
